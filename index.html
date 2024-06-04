@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Challenge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .big-number {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+        #timer {
+            font-size: 1.2em;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Challenge</h1>
+        <div id="challenge" class="big-number"></div>
+        <div id="timer">Time left: 5 seconds</div>
+        <div class="input-group">
+            <input type="text" id="answer" placeholder="Enter your answer" required>
+        </div>
+        <div class="input-group">
+            <label><input type="checkbox" id="notRobot"> I am not a robot</label><br>
+            <label><input type="checkbox" id="notHuman"> I am not a human</label><br>
+            <label><input type="checkbox" id="human"> I am a human</label>
+        </div>
+        <div class="input-group">
+            <label><input type="radio" name="status" id="cool"> I am cool</label><br>
+            <label><input type="radio" name="status" id="robot"> I am a robot</label><br>
+            <label><input type="radio" name="status" id="humanRadio"> I am a human</label>
+        </div>
+        <button id="submitBtn" disabled>Submit</button>
+        <div id="message" class="message"></div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    const challenge = document.getElementById('challenge');
+    const answerInput = document.getElementById('answer');
+    const submitBtn = document.getElementById('submitBtn');
+    const message = document.getElementById('message');
+    const notRobot = document.getElementById('notRobot');
+    const coolRadio = document.getElementById('cool');
+    const timerDisplay = document.getElementById('timer');
+
+    // Generate random numbers for the challenge
+    const a = Math.floor(Math.random() * 100) + 1;
+    const b = Math.floor(Math.random() * 100) + 1;
+    const correctAnswer = a + b;
+
+    // Display the challenge
+    challenge.textContent = `What is ${a} + ${b}?`;
+
+    // Timer
+    let timeLeft = 5;
+    const timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time left: ${timeLeft} seconds`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            submitBtn.disabled = true;
+            message.textContent = 'Time is up!';
+            message.style.color = 'red';
+        }
+    }, 1000);
+
+    // Enable the submit button after 1 second to prevent immediate clicks
+    setTimeout(() => {
+        submitBtn.disabled = false;
+    }, 1000);
+
+    // Event listener for the submit button
+    submitBtn.addEventListener('click', function() {
+        const userAnswer = parseInt(answerInput.value.trim());
+        const isNotRobotChecked = notRobot.checked;
+        const isCoolChecked = coolRadio.checked;
+
+        if (userAnswer === correctAnswer && isNotRobotChecked && isCoolChecked) {
+            message.textContent = 'Congratulations, Elon Musk!';
+            message.style.color = 'green';
+        } else {
+            message.textContent = 'Pathetic human, you dared to trick me!';
+            message.style.color = 'red';
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
